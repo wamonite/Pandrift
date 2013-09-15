@@ -103,16 +103,22 @@ bool DisplayManager::set_rift_manager(boost::shared_ptr<RiftManager> rift_manage
 
 bool DisplayManager::is_created()
 {
-  return !render_camera_np_.is_empty();
+  return render_shader_;
 }
 
 bool DisplayManager::create_display(bool enabled)
 {
   if (!window_ptr_)
+  {
+    pandrift_cat.error() << "create_display: Window not set";
     return false;
+  }
 
   if (!rift_manager_ptr_)
+  {
+    pandrift_cat.error() << "create_display: Rift manager not set";
     return false;
+  }
 
   bool created = create_scene_buffer() &&
                  create_scene_cameras() &&
@@ -173,12 +179,6 @@ void DisplayManager::destroy_display()
 
 bool DisplayManager::is_enabled()
 {
-  if (!window_ptr_)
-    return false;
-
-  if (render_camera_np_.is_empty())
-    return false;
-
   return render_region_ptr_ && render_region_ptr_->is_active();
 }
 
@@ -267,9 +267,9 @@ void DisplayManager::create_shader_cards(NodePath root_np)
 
   for (int eye = 0; eye <= 1; eye += 1)
   {
-    const float cI = eye;
-    card_maker.set_uv_range(LTexCoord(cI / 2.0, 0.0), LTexCoord((cI + 1.0) / 2.0, 1.0));
-    card_maker.set_frame(cI - 1.0, cI, -1.0, 1.0);
+    const float cEye = eye;
+    card_maker.set_uv_range(LTexCoord(cEye / 2.0, 0.0), LTexCoord((cEye + 1.0) / 2.0, 1.0));
+    card_maker.set_frame(cEye - 1.0, cEye, -1.0, 1.0);
     render_card_np_[eye] = NodePath(card_maker.generate());
     render_card_np_[eye].set_depth_test(false);
     render_card_np_[eye].set_depth_write(false);
@@ -295,7 +295,10 @@ bool DisplayManager::create_scene_buffer()
                                                                               scene_width_,
                                                                               scene_height_);
   if (!scene_buffer_ptr_)
+  {
+    pandrift_cat.error() << "create_scene_buffer: Unable to create scene buffer";
     return false;
+  }
 
   scene_buffer_ptr_->set_sort(-100);
 
@@ -409,7 +412,10 @@ bool DisplayManager::apply_shader()
                                 fragment_shader_file_name.c_str());
 
   if (!render_shader_)
+  {
+    pandrift_cat.error() << "apply_shader: Unable to load shader";
     return false;
+  }
 
   const float cY = 0.0, cW = 0.5, cH = 1.0;
   const float cScaleFactor = 1.0 / rift_manager_ptr_->get_distortion_scale();

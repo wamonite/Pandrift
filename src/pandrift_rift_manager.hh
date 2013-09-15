@@ -9,6 +9,7 @@ See the file LICENSE for details.
 #ifndef PANDRIFT_DISPLAY_RIFT_HEADER
 #define PANDRIFT_DISPLAY_RIFT_HEADER
 
+#include "pandrift.hh"
 #include "OVR.h"
 #include "lvector4.h"
 

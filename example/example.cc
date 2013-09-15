@@ -43,7 +43,6 @@ void key_rift_handler(const Event *event, void *data)
   DisplayManager *display_manager = reinterpret_cast<DisplayManager*>(data);
   assert(display_manager);
 
-
   if (!display_manager->is_created())
   {
     display_manager->create_display();
@@ -99,7 +98,7 @@ int main(int argc, char *argv[])
   window_ptr->enable_keyboard();
   framework.define_key("escape", "Exit", &key_escape_handler, &framework);
   framework.define_key("f", "Toggle fullscreen", &key_fullscreen_handler, window_ptr);
-  framework.define_key("r", "Toggle rift view", &key_rift_handler, &display_manager);
+  framework.define_key("r", "Toggle Rift view", &key_rift_handler, &display_manager);
 
   // Create the scene
   World world(window_ptr,

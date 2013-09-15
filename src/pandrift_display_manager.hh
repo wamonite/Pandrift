@@ -9,6 +9,7 @@ See the file LICENSE for details.
 #ifndef PANDRIFT_DISPLAY_MANAGER_HEADER
 #define PANDRIFT_DISPLAY_MANAGER_HEADER
 
+#include "pandrift.hh"
 #include "pandrift_rift_manager.hh"
 #include "pandaFramework.h"
 #include "pandaSystem.h"
@@ -16,12 +17,6 @@ See the file LICENSE for details.
 
 namespace pandrift
 {
-
-enum EyeSelect
-{
-  cEyeLeft = 0,
-  cEyeRight = 1
-};
 
 class DisplayManager
 {
