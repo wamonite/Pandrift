@@ -73,6 +73,10 @@ private:
 
   void destroy_scene_cameras();
 
+  bool create_hud_cameras();
+
+  void destroy_hud_cameras();
+
   bool apply_shader();
 
   void remove_shader();
@@ -82,6 +86,7 @@ private:
   int lookup_width_, lookup_height_;
   PT(WindowFramework) window_ptr_;
   boost::shared_ptr<RiftManager> rift_manager_ptr_;
+  bool created_;
   PT(DisplayRegion) render_region_ptr_;
   NodePath render_root_np_;
   NodePath render_camera_np_;
@@ -91,6 +96,8 @@ private:
   PT(DisplayRegion) scene_region_ptr_[2];
   NodePath scene_camera_root_np_;
   NodePath scene_camera_np_[2];
+  PT(DisplayRegion) hud_region_ptr_[2];
+  NodePath hud_camera_np_[2];
 };
 
 }

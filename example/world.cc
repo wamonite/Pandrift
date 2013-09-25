@@ -14,6 +14,8 @@ This code is based on the Panda3D Hello World tutorial.
 #include "cMetaInterval.h"
 #include "auto_bind.h"
 #include "mouseWatcher.h"
+#include "cardMaker.h"
+#include "textNode.h"
 
 using namespace pandrift;
 
@@ -80,6 +82,24 @@ void World::create_scene()
 
   PandaFramework *framework = window_ptr_->get_panda_framework();
   assert(framework);
+
+  // Create the HUD card
+  CardMaker card_maker("hud card");
+  card_maker.set_color(1.0, 1.0, 1.0, 0.1);
+  card_maker.set_frame_fullscreen_quad();
+
+  NodePath hud_card(card_maker.generate());
+  hud_card.set_transparency(TransparencyAttrib::M_alpha);
+  hud_card.reparent_to(window_ptr_->get_render_2d());
+
+  // Create the HUD text
+  PT(TextNode) text_node_ptr = new TextNode("hud text");
+  text_node_ptr->set_text("HUD");
+  text_node_ptr->set_align(TextProperties::A_center);
+  text_node_ptr->set_text_color(0, 0, 0, 0.75);
+
+  NodePath text_node_np = window_ptr_->get_aspect_2d().attach_new_node(text_node_ptr);
+  text_node_np.set_scale(0.25);
 
   // Load the background
   NodePath environ = window_ptr_->load_model(framework->get_models(),

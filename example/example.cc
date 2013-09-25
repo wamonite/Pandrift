@@ -78,8 +78,8 @@ int main(int argc, char *argv[])
   // Open window
   WindowProperties window_properties;
   framework.get_default_window_props(window_properties);
-  window_properties.set_size(rift_manager_ptr->get_display_width(),
-                             rift_manager_ptr->get_display_height());
+  window_properties.set_size(rift_manager_ptr->get_display_width_pixels(),
+                             rift_manager_ptr->get_display_height_pixels());
   window_properties.set_fixed_size(true);
 //  window_properties.set_fullscreen(true);
 

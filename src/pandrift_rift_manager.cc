@@ -17,6 +17,7 @@ namespace
 {
 
 const float cDefaultIPD = 0.0655;
+const float cDistortionFitPoint[2] = { -0.75, 0.0 };
 
 }
 
@@ -41,7 +42,8 @@ RiftManager::RiftManager()
   }
 
   stereo_config_.SetIPD(cDefaultIPD);
-  stereo_config_.SetDistortionFitPointVP(-1, 0);
+  stereo_config_.SetDistortionFitPointVP(cDistortionFitPoint[0],
+                                         cDistortionFitPoint[1]);
 
   // No difference in the parameters I'm using between each eye
   eye_params_ = stereo_config_.GetEyeRenderParams(StereoEye_Left);
@@ -52,14 +54,34 @@ RiftManager::~RiftManager()
 
 }
 
-int RiftManager::get_display_width()
+int RiftManager::get_display_width_pixels()
 {
   return stereo_config_.GetHMDInfo().HResolution;
 }
 
-int RiftManager::get_display_height()
+int RiftManager::get_display_height_pixels()
 {
   return stereo_config_.GetHMDInfo().VResolution;
+}
+
+float RiftManager::get_display_width_metres()
+{
+  return stereo_config_.GetHMDInfo().HScreenSize;
+}
+
+float RiftManager::get_display_height_metres()
+{
+  return stereo_config_.GetHMDInfo().VScreenSize;
+}
+
+float RiftManager::get_lens_separation()
+{
+  return stereo_config_.GetHMDInfo().LensSeparationDistance;
+}
+
+float RiftManager::get_eye_screen_distance()
+{
+  return stereo_config_.GetHMDInfo().EyeToScreenDistance;
 }
 
 float RiftManager::get_y_fov_radians()
@@ -69,7 +91,7 @@ float RiftManager::get_y_fov_radians()
 
 float RiftManager::get_display_aspect_ratio()
 {
-  return (float(stereo_config_.GetHMDInfo().HResolution) / 2.0) / float(stereo_config_.GetHMDInfo().VResolution);
+  return (float(stereo_config_.GetHMDInfo().HResolution) * 0.5) / float(stereo_config_.GetHMDInfo().VResolution);
 }
 
 float RiftManager::get_interpupillary_distance()

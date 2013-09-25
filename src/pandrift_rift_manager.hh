@@ -23,9 +23,17 @@ public:
 
   ~RiftManager();
 
-  int get_display_width();
+  int get_display_width_pixels();
 
-  int get_display_height();
+  int get_display_height_pixels();
+
+  float get_display_width_metres();
+
+  float get_display_height_metres();
+
+  float get_lens_separation();
+
+  float get_eye_screen_distance();
 
   float get_y_fov_radians();
 
